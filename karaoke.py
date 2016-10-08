@@ -5,6 +5,21 @@ from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
 from smallsmilhandler import SmallSMILHandler
 import sys
+import json
+
+def imprimir_tags(datos):
+    for tag in datos:
+        for etiqueta, atributos in tag.items():
+            linea = etiqueta + "\t"
+            for c, v in atributos.items():
+                linea = linea + c +"="+ "\""+ v + "\""+"\t" 
+            print(linea)
+
+def file_json(name_fichero, datos):
+    f = name_fichero[:-4] + "json"
+    f = open(f, 'w')
+    for d in misdatos:
+        json.dump(d, f)
 
 if __name__ == "__main__":
     """
@@ -20,10 +35,5 @@ if __name__ == "__main__":
         
     parser.parse(open(fichero))
     misdatos = cHandler.get_tags()
-    for etiqueta in misdatos:
-        linea = etiqueta['etiqueta'] + "\t"
-        for c, v in etiqueta.items():
-            if c != 'etiqueta':
-                linea = linea + c +"="+ "\""+ v + "\""+"\t"
-        print(linea)
-            
+    imprimir_tags(misdatos)
+    file_json(fichero, misdatos)

@@ -24,9 +24,9 @@ class SmallSMILHandler(ContentHandler):
         dat_atrib = {}
         root = ['width', 'height', 'background-color']
         reg = ['id', 'top', 'bottom', 'left', 'right']
-        img = ['sre', 'region', 'begin', 'dur']
-        aud = ['sre', 'begin', 'sur']
-        text = ['sre', 'region']
+        img = ['src', 'region', 'begin', 'dur']
+        aud = ['src', 'begin', 'sur']
+        text = ['src', 'region']
         etiquetas = {'root-layout': root, 'region': reg, 'img': img,
          'audio': aud, 'textstream': text}
         if name in etiquetas:
