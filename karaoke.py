@@ -20,5 +20,10 @@ if __name__ == "__main__":
         
     parser.parse(open(fichero))
     misdatos = cHandler.get_tags()
-    for diccionario in misdatos:
-        print(diccionario)
+    for etiqueta in misdatos:
+        linea = etiqueta['etiqueta'] + "\t"
+        for c, v in etiqueta.items():
+            if c != 'etiqueta':
+                linea = linea + c +"="+ "\""+ v + "\""+"\t"
+        print(linea)
+            
