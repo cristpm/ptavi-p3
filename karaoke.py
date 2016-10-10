@@ -4,22 +4,37 @@
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
 from smallsmilhandler import SmallSMILHandler
+import urllib
 import sys
 import json
 
-def imprimir_tags(datos):
+
+def __srt__(datos):
     for tag in datos:
         for etiqueta, atributos in tag.items():
             linea = etiqueta + "\t"
             for c, v in atributos.items():
                 linea = linea + c +"="+ "\""+ v + "\""+"\t" 
             print(linea)
+            
 
-def file_json(name_fichero, datos):
+def to_json(name_fichero, datos):
     f = name_fichero[:-4] + "json"
-    f = open(f, 'w')
-    for d in misdatos:
-        json.dump(d, f)
+    json.dump(datos,open(f,'w'))
+    
+        
+def do_local(datos):
+    for dic in datos:
+        for tag, atributos in dic.items():
+            if 'src' in atributos:
+                name = atributos['src']
+                if name[:4] == 'http':
+                    local = name.split('/')[-1]
+                    urllib.request.urlretrieve(name,local)
+                    atributos['src'] = local
+         
+    
+
 
 if __name__ == "__main__":
     """
@@ -35,5 +50,7 @@ if __name__ == "__main__":
         
     parser.parse(open(fichero))
     misdatos = cHandler.get_tags()
-    imprimir_tags(misdatos)
-    file_json(fichero, misdatos)
+    __srt__(misdatos)
+    to_json(fichero, misdatos)
+    do_local(misdatos)
+    __srt__(misdatos)
